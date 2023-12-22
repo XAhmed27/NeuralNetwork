@@ -1,8 +1,9 @@
 import 'neuron.dart';
 
-class Layer{
-  late List<Neuron> neurons;
+class Layer {
+  late final List<Neuron> neurons;
+
   Layer(int size) {
-    neurons.length=size;
+    neurons=[];
   }
 }

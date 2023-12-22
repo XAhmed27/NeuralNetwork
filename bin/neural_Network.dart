@@ -15,10 +15,9 @@ class NeuralNetwork {
   }
 
   void train(List<double>features, List<double>targets) {
-    for (int i = 0; i < epochs; i++) {
       ForwardPropagtion(layers, features);
-      BackwardPropagation(layers, targets, learning_rate);
-    }
+      backpropagation(layers, targets);
+
   }
 
 

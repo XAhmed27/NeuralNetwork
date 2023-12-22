@@ -1,10 +1,8 @@
-import 'dart:math';
+class Neuron {
+  late final List<double> weights=[];
+  late double value = 0;
 
-class Neuron{
-  late List<double>weights;
-  late List<double>values;
-  Neuron(double v) {
-    values.add(v);
-    weights.add( 0.1 + Random().nextDouble() * 0.9);
+  Neuron() {
+
   }
 }
