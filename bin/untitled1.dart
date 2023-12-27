@@ -18,7 +18,7 @@ double dsigmoid(double x) {
 
 double MeanTimeSquareError(List<Layer> layers, List<double> targets) {
   double error = 0;
-  error += 0.5 * pow(targets[0] / 100 - layers[2].neurons[0].value, 2);
+  error += 0.5 * pow(targets[0]   - layers[2].neurons[0].value, 2);
   return error;
 }
 
@@ -29,42 +29,54 @@ double SumOfProducts(double value, double weight) {
 }
 
 void ForwardPropagtion(List<Layer> layers, List<double> features) {
-  for (int y = 0; y < 4; y++) {
+  for (int y = 0; y < 4; y++) {// intializwe layers nd5l neuron
     //4
     Neuron neuron = Neuron();
     neuron.value = features[y];
     layers[0].neurons.add(neuron);
-    for (int i = 0; i < 4; i++) {
+
+    for (int i = 0; i < 4; i++) { // ned5al el weight le neuron
       // 4
       layers[0].neurons[y].weights.add(0.1 + Random().nextDouble() * 0.9);
     }
+
   }
+
   for (int i = 1; i < layers.length; i++) {
+
     for (int j = 0; j < 4; j++) {
       //4
       if (i == 2 && j == 1) {
         break;
       }
       double sum = 0;
-      for (int k = 0; k < layers[i - 1].neurons.length; k++) {
+
+      for (int k = 0; k < layers[i - 1].neurons.length; k++) {// layers
         sum += SumOfProducts(layers[i - 1].neurons[k].value,
             layers[i - 1].neurons[k].weights[j]);
       }
+
       Neuron neuron = Neuron();
-      neuron.value = SigmoidFunction(sum);
-      layers[i].neurons.add(neuron);
-      layers[i].neurons[j].weights.add(0.1 + Random().nextDouble() * 0.9);
+      if(i==2){// linear in the output layer
+        neuron.value=sum;
+        layers[i].neurons.add(neuron);
+        layers[i].neurons[j].weights.add(0.1 + Random().nextDouble() * 0.9);
+        continue;
+      }
+      neuron.value = SigmoidFunction(sum);// add the sigmoid function value to the hidden layer
+      layers[i].neurons.add(neuron);// add the sigmoid function value to the hidden layer
+      layers[i].neurons[j].weights.add(0.1 + Random().nextDouble() * 0.9);// random weight le neuron el fe hidden layer
     }
   }
   print("actual value:${layers[2].neurons[0].value}");
 }
 
 void backpropagation(List<Layer> layers, List<double> targets,double learning_rate) {
-  print("target:${(targets[0] / 100)}");
+  print("target:${(targets[0])}");
   double deltaY = 0;
   for (int i = 0; i < layers[2].neurons.length; i++) {
     deltaY = dsigmoid(layers[2].neurons[i].value) *
-        (targets[i] / 10 - layers[2].neurons[i].value);
+        (targets[i]  - layers[2].neurons[i].value);
   }
 
   List<double> hiddenLayerError = [];
